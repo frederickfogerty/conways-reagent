@@ -8,18 +8,61 @@
 
 (enable-console-print!)
 
-(defn render-string [component]
-  (r/render-component-to-string component))
+ (def board1 [[0 1 0 0]
+              [0 0 0 1]
+              [0 0 0 0]
+              [0 1 0 0]])
 
-(defn render [component]
-  ($ (render-string component)))
+ (def board1Next [[0 0 0 0]
+                  [0 0 0 0]
+                  [0 0 0 0]
+                  [0 0 0 0]])
 
-(deftest child-component
-  (is (= (.text (render [subject/child-component "Some name"]))
-         "Hi, I am Some name")))
+ (def board2 [[0 1 0 0]
+              [0 1 0 1]
+              [0 0 1 0]
+              [0 1 0 1]])
 
-(deftest parent-component
-  (is (= (.text (render [subject/parent-component]))
-         "Hi, I am Brent")))
+ (def board2Next [[0 0 1 0]
+                  [0 0 1 0]
+                  [0 1 0 1]
+                  [0 0 1 0]])
+
+ (deftest neighbour-count-test
+   (is (= 1 (subject/neighbour-count 1 1 board1)))
+   (is (= 2 (subject/neighbour-count 2 2 board1)))
+   (is (= 0 (subject/neighbour-count 3 3 board1)))
+
+   (is (= 3 (subject/neighbour-count 2 1 board2)))
+   (is (= 3 (subject/neighbour-count 0 2 board2)))
+   (is (= 2 (subject/neighbour-count 2 0 board2))))
+
+ (deftest find-value-at-test
+   (is (= 0 (subject/findValueAt 0 0 board2)))
+   (is (= 0 (subject/findValueAt -1 0 board2)))
+   (is (= 0 (subject/findValueAt 0 -1 board2)))
+   (is (= 0 (subject/findValueAt 4 0 board2)))
+   (is (= 0 (subject/findValueAt 0 4 board2)))
+   (is (= 1 (subject/findValueAt 0 1 board2)))
+   (is (= 0 (subject/findValueAt 2 0 board2))))
+
+ (deftest alive-at-point-test
+   ; dead
+   (is (= false (subject/aliveAtPoint 0 0 board2)))
+   ; alive
+   (is (= true (subject/aliveAtPoint 0 1 board2))))
+
+ (deftest next-cell-state-test
+   (is (= 0 (subject/next-cell-state 0 0 board1)))
+   (is (= 0 (subject/next-cell-state 1 1 board1)))
+   (is (= 0 (subject/next-cell-state 2 3 board1)))
+
+   ; dies from overcrowding: 4 neighbours
+   (is (= 0 (subject/next-cell-state 2 2 board2)))
+   ; comes alive: 3 neighbours
+   (is (= 1 (subject/next-cell-state 2 1 board2)))
+   ; stays dead
+   (is (= 0 (subject/next-cell-state 2 0 board2))))
+
 
 (run-tests)

@@ -7321,7 +7321,7 @@ cljs.core.nil_iter = function nil_iter() {
   }, cljs.core.__GT_t5981 = function(b, c) {
     return new cljs.core.t5981(b, c);
   });
-  return new cljs.core.t5981(nil_iter, new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null, "end-column", "end-column", 1425389514), 54, new cljs.core.Keyword(null, "end-line", "end-line", 1837326455), 3007, new cljs.core.Keyword(null, "column", "column", 2078222095), 3, new cljs.core.Keyword(null, "line", "line", 212345235), 3003, new cljs.core.Keyword(null, "file", "file", -1269645878), "/Users/brentvatne/coding/base-reagent-project/target/cljsbuild-compiler-0/cljs/core.cljs"], 
+  return new cljs.core.t5981(nil_iter, new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null, "end-column", "end-column", 1425389514), 54, new cljs.core.Keyword(null, "end-line", "end-line", 1837326455), 3007, new cljs.core.Keyword(null, "column", "column", 2078222095), 3, new cljs.core.Keyword(null, "line", "line", 212345235), 3003, new cljs.core.Keyword(null, "file", "file", -1269645878), "/Users/fred/Programming/code-retreat/reagent/target/cljsbuild-compiler-0/cljs/core.cljs"], 
   null));
 };
 cljs.core.StringIter = function(a, b) {
@@ -20944,13 +20944,110 @@ goog.History.PollingType = {NORMAL:150, LONG:1E4};
 goog.History.EventType = goog.history.EventType;
 goog.History.Event = goog.history.Event;
 var myproject = {core:{}};
-myproject.core.child_component = function(a) {
-  return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "p", "p", 151049309), "Hi, I am ", a], null);
+myproject.core.aBoard = new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [1, 0, 0, 0], null), new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, 0, 0, 1], null), new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, 1, 1, 1], null), new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, 
+1, 1, 1], null)], null);
+myproject.core.findValueAt = function(a, b, c) {
+  return 0 > b || 0 > a || a >= cljs.core.count.call(null, c) || b >= cljs.core.count.call(null, c.call(null, 0)) ? 0 : c.call(null, a).call(null, b);
 };
-myproject.core.parent_component = function() {
-  return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [myproject.core.child_component, "Brent"], null);
+cljs.core.map.call(null, cljs.core.range.call(null, -1, 2), cljs.core.range.call(null, -1, 2));
+myproject.core.neighbour_count = function(a, b, c) {
+  return myproject.core.findValueAt.call(null, a - 1, b - 1, c) + myproject.core.findValueAt.call(null, a - 1, b, c) + myproject.core.findValueAt.call(null, a - 1, b + 1, c) + myproject.core.findValueAt.call(null, a, b - 1, c) + myproject.core.findValueAt.call(null, a, b + 1, c) + myproject.core.findValueAt.call(null, a + 1, b - 1, c) + myproject.core.findValueAt.call(null, a + 1, b, c) + myproject.core.findValueAt.call(null, a + 1, b + 1, c);
+};
+myproject.core.aliveAtPoint = function(a, b, c) {
+  return cljs.core._EQ_.call(null, c.call(null, a).call(null, b), 1);
+};
+myproject.core.next_cell_state = function(a, b, c) {
+  var d = myproject.core.neighbour_count.call(null, a, b, c);
+  return myproject.core.aliveAtPoint.call(null, a, b, c) ? 2 > d || 3 < d ? 0 : 1 : cljs.core._EQ_.call(null, d, 3) ? 1 : 0;
+};
+myproject.core.next_board_state = function(a) {
+  console.log(a);
+  return cljs.core.vec.call(null, cljs.core.map_indexed.call(null, function(b, c) {
+    return cljs.core.vec.call(null, cljs.core.map_indexed.call(null, function(c, e) {
+      return myproject.core.next_cell_state.call(null, b, c, a);
+    }, c));
+  }, a));
+};
+myproject.core.app_state = reagent.core.atom.call(null, new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, 0, 0, 0, 0], null), new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, 0, 1, 0, 0], null), new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, 0, 1, 0, 0], null), new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, 
+[0, 0, 1, 0, 0], null), new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, 0, 0, 0, 0], null)], null));
+myproject.core.isAlive = function(a) {
+  return cljs.core._EQ_.call(null, a, 1);
+};
+myproject.core.cell = function(a) {
+  return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "backgroundColor", "backgroundColor", 1738438491), cljs.core.truth_(a) ? "#fff" : "#222", new cljs.core.Keyword(null, "margin", "margin", -995903681), 5, new cljs.core.Keyword(null, 
+  "height", "height", 1025178622), 30, new cljs.core.Keyword(null, "width", "width", -384071477), 30], null)], null), " "], null);
+};
+myproject.core.rowComponent = function(a) {
+  return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "display", "display", 242065432), "flex"], null)], null), function() {
+    return function c(a) {
+      return new cljs.core.LazySeq(null, function() {
+        for (;;) {
+          var e = cljs.core.seq.call(null, a);
+          if (e) {
+            if (cljs.core.chunked_seq_QMARK_.call(null, e)) {
+              var f = cljs.core.chunk_first.call(null, e), g = cljs.core.count.call(null, f), h = cljs.core.chunk_buffer.call(null, g);
+              a: {
+                for (var k = 0;;) {
+                  if (k < g) {
+                    var l = cljs.core._nth.call(null, f, k);
+                    cljs.core.chunk_append.call(null, h, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [myproject.core.cell, myproject.core.isAlive.call(null, l)], null));
+                    k += 1;
+                  } else {
+                    f = !0;
+                    break a;
+                  }
+                }
+                f = void 0;
+              }
+              return f ? cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, h), c.call(null, cljs.core.chunk_rest.call(null, e))) : cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, h), null);
+            }
+            h = cljs.core.first.call(null, e);
+            return cljs.core.cons.call(null, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [myproject.core.cell, myproject.core.isAlive.call(null, h)], null), c.call(null, cljs.core.rest.call(null, e)));
+          }
+          return null;
+        }
+      }, null, null);
+    }.call(null, a);
+  }()], null);
+};
+myproject.core.swapBoard = function() {
+  return cljs.core.swap_BANG_.call(null, myproject.core.app_state, myproject.core.next_board_state);
+};
+myproject.core.app = function() {
+  setTimeout(myproject.core.swapBoard, 1E3);
+  return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "backgroundColor", "backgroundColor", 1738438491), "#888"], null)], null), function() {
+    return function b(c) {
+      return new cljs.core.LazySeq(null, function() {
+        for (;;) {
+          var d = cljs.core.seq.call(null, c);
+          if (d) {
+            if (cljs.core.chunked_seq_QMARK_.call(null, d)) {
+              var e = cljs.core.chunk_first.call(null, d), f = cljs.core.count.call(null, e), g = cljs.core.chunk_buffer.call(null, f);
+              a: {
+                for (var h = 0;;) {
+                  if (h < f) {
+                    var k = cljs.core._nth.call(null, e, h);
+                    cljs.core.chunk_append.call(null, g, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [myproject.core.rowComponent, k], null));
+                    h += 1;
+                  } else {
+                    e = !0;
+                    break a;
+                  }
+                }
+                e = void 0;
+              }
+              return e ? cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, g), b.call(null, cljs.core.chunk_rest.call(null, d))) : cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, g), null);
+            }
+            g = cljs.core.first.call(null, d);
+            return cljs.core.cons.call(null, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [myproject.core.rowComponent, g], null), b.call(null, cljs.core.rest.call(null, d)));
+          }
+          return null;
+        }
+      }, null, null);
+    }.call(null, cljs.core.deref.call(null, myproject.core.app_state));
+  }(), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "input", "input", 556931961), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1174270348), "button", new cljs.core.Keyword(null, "value", "value", 305978217), "Next state", new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), myproject.core.swapBoard], null)], null)], null);
 };
 myproject.core.main = function(a) {
-  return reagent.core.render_component.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [myproject.core.parent_component], null), document.getElementById(a));
+  return reagent.core.render_component.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [myproject.core.app], null), document.getElementById(a));
 };
 goog.exportSymbol("myproject.core.main", myproject.core.main);
